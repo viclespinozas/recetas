@@ -64,7 +64,7 @@ doctrine:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: true
                 mappings:
-                    # ApplicationSonataUserBundle: ~
+                    ApplicationSonataUserBundle: ~
                     SonataUserBundle: ~
                     FOSUserBundle: ~                                    # If SonataUserBundle extends it
 
@@ -90,6 +90,9 @@ sonata_block:
 sonata_user:
     security_acl: false
     manager_type: orm # can be orm or mongodb
+    class:
+        user: Application\Sonata\UserBundle\Entity\User
+        group: Application\Sonata\UserBundle\Entity\Group
 
 fos_user:
     db_driver:      orm # can be orm or odm
@@ -97,11 +100,11 @@ fos_user:
     from_email:
         address:        test@devaid.cl
         sender_name:    Test
-    user_class:     Sonata\UserBundle\Entity\BaseUser
+    user_class:     Application\Sonata\UserBundle\Entity\User
 
 
     group:
-        group_class:   Sonata\UserBundle\Entity\BaseGroup
+        group_class:   Application\Sonata\UserBundle\Entity\Group
         group_manager: sonata.user.orm.group_manager                    # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
 
     service:
