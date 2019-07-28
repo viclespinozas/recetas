@@ -42,3 +42,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Ingredients }
         public: true
+
+    admin.recipes_has_ingredients:
+        class: App\Admin\RecipesHasIngredientsAdmin
+        arguments: [~, App\Entity\RecipesHasIngredients, App\Controller\RecipesHasIngredientsAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: RecipesHasIngredients }
+        public: true

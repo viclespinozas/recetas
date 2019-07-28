@@ -60,11 +60,6 @@ final class RecipesAdmin extends AbstractAdmin
                             ]
                         ]
                     ],
-                    // 'constraints' => [
-                    //     new NotNull([
-                    //         'message' => 'Debe ingresar al menos una imagen'
-                    //     ]),
-                    // ]
                 ], [
                     'edit' => 'inline',
                     'inline' => 'table',
@@ -83,5 +78,38 @@ final class RecipesAdmin extends AbstractAdmin
             ->add('preparation')
             ->add('image')
             ;
+    }
+
+    /**
+     * @param  \App\Entity\WorkReport $object
+    */
+    public function prePersistOrUpdate($object)
+    {
+        $now = new \DateTime();
+        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        if (count($object->getIngredients()) > 0) {
+            foreach ($object->getIngredients() as $ingredient) {
+                $ingredient->setRecipes($object);
+            }
+        }
+
+        $object->setCreatedAt($now);
+    }
+
+    /**
+     * @param  \App\Entity\Recipes $object
+     */
+    public function prePersist($object)
+    {
+        $this->prePersistOrUpdate($object);
+    }
+
+    /**
+     * @param  \App\Entity\Recipes $object
+     */
+    public function preUpdate($object)
+    {
+        $this->prePersistOrUpdate($object);
     }
 }
