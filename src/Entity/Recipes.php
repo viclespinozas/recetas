@@ -19,7 +19,7 @@ class Recipes
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -59,26 +59,10 @@ class Recipes
     private $image;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Ingredients", inversedBy="recipes")
-     * @ORM\JoinTable(name="recipes_has_ingredients",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="recipes_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="ingredients_id", referencedColumnName="id")
-     *   }
-     * )
-     */
-    private $ingredients;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->ingredients = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -138,37 +122,6 @@ class Recipes
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getIngredients()
-    {
-        return $this->ingredients;
-    }
-
-    public function addIngredient(\App\Entity\Ingredients $ingredient): self
-    {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-            $ingredient->setRecipe($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIngredient(\App\Entity\Ingredient $ingredient): self
-    {
-        if ($this->ingredients->contains($ingredient)) {
-            $this->ingredients->removeElement($ingredient);
-            // set the owning side to null (unless already changed)
-            if ($ingredient->getRecipe() === $this) {
-                $ingredient->setRecipe(null);
-            }
-        }
 
         return $this;
     }

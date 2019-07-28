@@ -10,3 +10,4 @@ Recipes Create: Crear Receta
 admin:
   user: Usuarios
   settings: Recetas
+  ingredients: Ingredientes

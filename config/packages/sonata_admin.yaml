@@ -21,6 +21,7 @@ sonata_admin:
                 label_catalogue: App
                 items:
                     - admin.recipes
+                    - admin.ingredients
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
     security:

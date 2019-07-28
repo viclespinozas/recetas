@@ -17,7 +17,7 @@ class Ingredients
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -36,18 +36,10 @@ class Ingredients
     private $image;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Recipes", mappedBy="ingredients")
-     */
-    private $recipes;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->recipes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -110,23 +102,12 @@ class Ingredients
         return $this;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRecipes()
+    public function __toString()
     {
-        return $this->recipes;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $recipes
-     *
-     * @return self
-     */
-    public function setRecipes(\Doctrine\Common\Collections\Collection $recipes)
-    {
-        $this->recipes = $recipes;
-
-        return $this;
+        if ($this->id) {
+            return (string)$this->name;
+        } else {
+            return '';
+        }
     }
 }
