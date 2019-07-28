@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Recipes
@@ -78,7 +80,7 @@ class Recipes
     {
         $this->ingredients = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
 
     /**
      * @return int
@@ -148,16 +150,36 @@ class Recipes
         return $this->ingredients;
     }
 
-    /**
-     * @param \Doctrine\Common\Collections\Collection $ingredients
-     *
-     * @return self
-     */
-    public function setIngredients(\Doctrine\Common\Collections\Collection $ingredients)
+    public function addIngredient(\App\Entity\Ingredients $ingredient): self
     {
-        $this->ingredients = $ingredients;
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+            $ingredient->setRecipe($this);
+        }
 
         return $this;
+    }
+
+    public function removeIngredient(\App\Entity\Ingredient $ingredient): self
+    {
+        if ($this->ingredients->contains($ingredient)) {
+            $this->ingredients->removeElement($ingredient);
+            // set the owning side to null (unless already changed)
+            if ($ingredient->getRecipe() === $this) {
+                $ingredient->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->id) {
+            return (string)$this->name;
+        } else {
+            return '';
+        }
     }
 
     /**

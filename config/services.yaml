@@ -35,3 +35,10 @@ services:
         public: true
         calls:
             - [ setTranslationDomain, [App] ]
+
+    admin.ingredients:
+        class: App\Admin\IngredientsAdmin
+        arguments: [~, App\Entity\Ingredients, App\Controller\IngredientsAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Ingredients }
+        public: true

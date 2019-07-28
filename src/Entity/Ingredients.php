@@ -50,4 +50,83 @@ class Ingredients
         $this->recipes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     *
+     * @return self
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecipes()
+    {
+        return $this->recipes;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $recipes
+     *
+     * @return self
+     */
+    public function setRecipes(\Doctrine\Common\Collections\Collection $recipes)
+    {
+        $this->recipes = $recipes;
+
+        return $this;
+    }
 }
