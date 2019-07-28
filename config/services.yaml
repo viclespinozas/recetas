@@ -49,3 +49,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: RecipesHasIngredients }
         public: true
+
+    admin.preparation_image:
+        class: App\Admin\PreparationImageAdmin
+        arguments: [~, App\Entity\PreparationImage, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: PreparationImage }
+        public: true

@@ -5,12 +5,15 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Recipes
  *
  * @ORM\Table(name="recipes")
  * @ORM\Entity
+ * @Vich\Uploadable
  */
 class Recipes
 {
@@ -59,9 +62,24 @@ class Recipes
     private $image;
 
     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="recipes", fileNameProperty="image")
+     * 
+     * 
+     * @var File
+     */
+    private $imageFile;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\RecipesHasIngredients", mappedBy="recipes", cascade={"persist"})
      */
     private $ingredients;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PreparationImage", mappedBy="recipes", cascade={"persist"})
+     */
+    private $preparationImages;
 
     /**
      * Constructor
@@ -69,6 +87,7 @@ class Recipes
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
+        $this->preparationImages = new ArrayCollection();
     }
 
     /**
@@ -201,6 +220,31 @@ class Recipes
     }
 
     /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
      * @return Collection|RecipesHasIngredients[]
      */
     public function getIngredients(): Collection
@@ -225,6 +269,37 @@ class Recipes
             // set the owning side to null (unless already changed)
             if ($ingredient->getRecipes() === $this) {
                 $ingredient->setRecipes(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PreparationImages[]
+     */
+    public function getPreparationImages(): Collection
+    {
+        return $this->preparationImages;
+    }
+
+    public function addPreparationImage(PreparationImage $preparationImage): self
+    {
+        if (!$this->preparationImages->contains($preparationImage)) {
+            $this->preparationImages[] = $preparationImage;
+            $preparationImage->setRecipes($this);
+        }
+
+        return $this;
+    }
+
+    public function removePreparationImage(PreparationImage $preparationImage): self
+    {
+        if ($this->preparationImages->contains($preparationImage)) {
+            $this->preparationImages->removeElement($preparationImage);
+            // set the owning side to null (unless already changed)
+            if ($preparationImage->getRecipes() === $this) {
+                $preparationImage->setRecipes(null);
             }
         }
 

@@ -65,6 +65,25 @@ final class RecipesAdmin extends AbstractAdmin
                     'inline' => 'table',
                     'sortable' => 'position',
                 ])
+            ->add('preparationImages', CollectionType::class, [
+                    'type_options' => [
+                        // Prevents the "Delete" option from being displayed
+                        'delete' => false,
+                        'delete_options' => [
+                            // You may otherwise choose to put the field but hide it
+                            'type'         => HiddenType::class,
+                            // In that case, you need to fill in the options as well
+                            'type_options' => [
+                                'mapped'   => false,
+                                'required' => false,
+                            ]
+                        ]
+                    ],
+                ], [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'position',
+                ])
             ;
     }
 

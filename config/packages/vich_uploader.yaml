@@ -1,0 +1,22 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        recipes:
+            uri_prefix: /images/recipes
+            upload_destination: '%kernel.project_dir%/public/images/recipes'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        ingredients:
+            uri_prefix: /images/ingredients
+            upload_destination: '%kernel.project_dir%/public/images/ingredients'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        preparationImages:
+            uri_prefix: /images/preparationImages
+            upload_destination: '%kernel.project_dir%/public/images/preparationImages'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
