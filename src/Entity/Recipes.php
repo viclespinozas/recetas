@@ -59,12 +59,17 @@ class Recipes
     private $image;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecipesHasIngredients", mappedBy="recipes")
+     */
+    private $ingredients;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->ingredients = new ArrayCollection();
     }
-
 
     /**
      * @return int
@@ -191,6 +196,37 @@ class Recipes
     public function setImage($image)
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RecipesHasIngredients[]
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->ingredients;
+    }
+
+    public function addIngredient(RecipesHasIngredients $ingredient): self
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+            $ingredient->setRecipes($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIngredient(RecipesHasIngredients $ingredient): self
+    {
+        if ($this->ingredients->contains($ingredient)) {
+            $this->ingredients->removeElement($ingredient);
+            // set the owning side to null (unless already changed)
+            if ($ingredient->getRecipes() === $this) {
+                $ingredient->setRecipes(null);
+            }
+        }
 
         return $this;
     }

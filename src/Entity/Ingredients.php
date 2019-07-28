@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,10 +38,16 @@ class Ingredients
     private $image;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecipesHasIngredients", mappedBy="ingredients")
+     */
+    private $recipes;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->recipes = new ArrayCollection();
     }
 
     /**
@@ -109,5 +117,36 @@ class Ingredients
         } else {
             return '';
         }
+    }
+
+    /**
+     * @return Collection|RecipesHasIngredients[]
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(RecipesHasIngredients $recipe): self
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes[] = $recipe;
+            $recipe->setIngredients($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(RecipesHasIngredients $recipe): self
+    {
+        if ($this->recipes->contains($recipe)) {
+            $this->recipes->removeElement($recipe);
+            // set the owning side to null (unless already changed)
+            if ($recipe->getIngredients() === $this) {
+                $recipe->setIngredients(null);
+            }
+        }
+
+        return $this;
     }
 }
