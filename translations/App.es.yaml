@@ -1,0 +1,12 @@
+Recipes: Recetas
+Name: Nombre
+Created At: Fecha de Creación
+Updated At: Fecha de Actualización
+Preparation: Preparación
+Image: Imagen
+Recipes List: Lista de Recetas
+Recipes Create: Crear Receta
+
+admin:
+  user: Usuarios
+  settings: Recetas

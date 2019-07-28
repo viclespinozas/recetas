@@ -1,6 +1,26 @@
 sonata_admin:
-    title: 'Sonata Admin'
+    templates:
+        layout: 'standard_layout.html.twig'
+    title: 'Recetas Chipi'
+    title_logo: 'logo\recetas_chipi.png'
+    assets:
+        extra_stylesheets:
+            - css\all.css
     dashboard:
+        groups:
+            admin.user:
+                label: admin.user
+                icon: '<i class="fa fa-user"></i>'
+                label_catalogue: App
+                items:
+                    - sonata.user.admin.user
+                    - sonata.user.admin.group
+            admin.settings:
+                label: admin.settings
+                icon: '<i class="fa fa-cogs"></i>'
+                label_catalogue: App
+                items:
+                    - admin.recipes
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
     security:
