@@ -28,9 +28,11 @@ final class RecipesAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('image', null, [
+                'template' => 'recipes_image.html.twig'
+            ])
             ->add('name')
             ->add('preparation')
-            ->add('image')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -45,7 +47,26 @@ final class RecipesAdmin extends AbstractAdmin
         $formMapper
             ->add('name')
             ->add('preparation')
-            ->add('image')
+            ->add('imageFile', VichImageType::class, [
+                // 'constraints' => array(
+                //     new Image( array('mimeTypes'=>
+                //         array(
+                //           'image/jpeg',
+                //           'image/png',
+                //           'image/jpg',
+                //           'image/gif',
+                //         ),
+                //         'maxSize' => '20M' 
+                //         )), 
+                        
+                // ),
+                'required' => true,
+                'allow_delete' => true,
+                'download_label' => 'Descargar',
+                'download_uri' => true,
+                // 'image_uri' => true,
+                'delete_label' => 'Eliminar',
+            ])
             ->add('ingredients', CollectionType::class, [
                     'type_options' => [
                         // Prevents the "Delete" option from being displayed

@@ -1,0 +1,6 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+<div class="col-md-12" style="width: 150px; height:100px;">
+    <img src="{{ vich_uploader_asset(object, 'imageFile') }}" class="img-responsive">
+</div>
+{% endblock %}
