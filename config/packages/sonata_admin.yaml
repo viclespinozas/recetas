@@ -3,9 +3,9 @@ sonata_admin:
         layout: 'standard_layout.html.twig'
     title: 'Recetas Chipi'
     title_logo: 'logo\recetas_chipi.png'
-    assets:
-        extra_stylesheets:
-            - css\all.css
+    # assets:
+    #     extra_stylesheets:
+    #         - css\all.css
     dashboard:
         groups:
             admin.user:

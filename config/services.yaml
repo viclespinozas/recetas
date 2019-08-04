@@ -42,6 +42,8 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Ingredients }
         public: true
+        calls:
+            - [ setTranslationDomain, [App] ]
 
     admin.recipes_has_ingredients:
         class: App\Admin\RecipesHasIngredientsAdmin
@@ -49,6 +51,8 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: RecipesHasIngredients }
         public: true
+        calls:
+            - [ setTranslationDomain, [App] ]
 
     admin.preparation_image:
         class: App\Admin\PreparationImageAdmin
@@ -56,3 +60,5 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: PreparationImage }
         public: true
+        calls:
+            - [ setTranslationDomain, [App] ]
